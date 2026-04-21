@@ -39,31 +39,32 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .card.prep {border-left:3px solid var(--amber)}
 .card.listo{border-left:3px solid var(--green);background:rgba(74,222,128,.06)}
 .card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
-.card-cliente{font-size:16px;font-weight:600}
-.card-hora{font-family:var(--mono);font-size:11px;color:var(--m)}
-.card-tipo{display:inline-block;font-size:11px;font-weight:600;padding:3px 8px;border-radius:6px;margin-bottom:8px}
+.card-cliente{font-size:20px;font-weight:600}
+.card-hora{font-family:var(--mono);font-size:13px;color:var(--m)}
+.card-tipo{display:inline-block;font-size:13px;font-weight:600;padding:4px 10px;border-radius:6px;margin-bottom:8px}
 .tipo-delivery{background:var(--blue-dim);color:var(--blue)}
 .tipo-retiro{background:var(--green-dim);color:var(--green)}
-.card-pago{font-size:11px;color:var(--m);margin-bottom:8px}
+.card-pago{font-size:13px;color:var(--m);margin-bottom:8px}
 /* ITEMS */
 .items-list{margin-bottom:10px}
-.item-row{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid var(--b)}
+.item-row{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--b)}
 .item-row:last-child{border-bottom:none}
-.item-qty{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--brand);min-width:22px;flex-shrink:0;margin-top:1px}
-.item-name{font-size:14px;font-weight:500;line-height:1.4}
-.item-ings{font-size:12px;color:var(--m);margin-top:2px;line-height:1.4}
-.item-extra{font-size:11px;color:var(--amber);margin-top:1px}
-.card-dir{font-size:12px;color:var(--m);margin-bottom:4px}
-.card-nota{font-size:12px;color:var(--amber);background:var(--amber-dim);border-radius:6px;padding:5px 8px;margin-top:6px}
-.card-total{font-family:var(--mono);font-size:12px;color:var(--m);margin-top:6px}
-.timer{font-family:var(--mono);font-size:11px;color:var(--m);margin-top:4px}
+.item-qty{font-family:var(--mono);font-size:16px;font-weight:600;color:var(--brand);min-width:26px;flex-shrink:0;margin-top:1px}
+.item-name{font-size:17px;font-weight:600;line-height:1.4}
+.item-ings{font-size:14px;color:var(--m);margin-top:3px;line-height:1.5}
+.item-extra{font-size:13px;color:var(--amber);margin-top:2px}
+.card-dir{font-size:14px;color:var(--m);margin-bottom:4px}
+.card-nota{font-size:14px;color:var(--amber);background:var(--amber-dim);border-radius:6px;padding:7px 10px;margin-top:6px}
+.card-total{font-family:var(--mono);font-size:13px;color:var(--m);margin-top:8px}
+.timer{font-family:var(--mono);font-size:12px;color:var(--m);margin-top:5px}
 .timer.urgent{color:var(--red);font-weight:600}
 /* ACCIONES */
-.actions{display:flex;gap:7px;margin-top:10px}
-.btn-action{flex:1;padding:9px 6px;border-radius:8px;border:1px solid var(--b2);background:transparent;font-size:12px;font-weight:600;font-family:var(--font);cursor:pointer;transition:.15s;white-space:nowrap}
+.actions{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.btn-action{width:100%;padding:13px 10px;border-radius:10px;border:1.5px solid var(--b2);background:transparent;font-size:15px;font-weight:600;font-family:var(--font);cursor:pointer;transition:.15s;white-space:nowrap;text-align:center}
 .btn-prep{color:var(--amber);border-color:var(--amber)}.btn-prep:hover{background:var(--amber-dim)}
-.btn-listo{color:var(--green);border-color:var(--green)}.btn-listo:hover{background:var(--green-dim)}
-.btn-del{color:var(--m);font-size:11px}.btn-del:hover{background:var(--s2)}
+.btn-listo{color:var(--green);border-color:var(--green);font-size:16px;padding:15px}.btn-listo:hover{background:var(--green-dim)}
+.btn-del{color:var(--m);font-size:13px}.btn-del:hover{background:var(--s2)}
+.btn-wsp{background:#25D366;color:#fff;border-color:#25D366;font-size:14px}.btn-wsp:hover{background:#1ebe5d}
 /* NOTIFICACIÓN */
 #notif{position:fixed;top:70px;right:16px;background:var(--s1);border:1px solid var(--brand);border-radius:12px;padding:12px 16px;min-width:250px;max-width:320px;transform:translateX(120%);transition:transform .35s cubic-bezier(.25,.8,.25,1);z-index:999}
 #notif.show{transform:translateX(0)}
@@ -105,23 +106,15 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 <div id="notif"><div id="notif-t"></div><div id="notif-b"></div></div>
 
 <script>
-// Import the functions you need from the SDKs you need
-
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyDe9zMh38lmwN-7YzhtkjFiDWK6UeGPxC4",
-  authDomain: "pedidos-pablosspizza.firebaseapp.com",
-  databaseURL: "https://pedidos-pablosspizza-default-rtdb.firebaseio.com",
-  projectId: "pedidos-pablosspizza",
-  storageBucket: "pedidos-pablosspizza.firebasestorage.app",
-  messagingSenderId: "85154138656",
-  appId: "1:85154138656:web:80f2f339895318e4f64a45"
+const FB_CFG={
+  apiKey:"TU_API_KEY",
+  authDomain:"TU_PROJECT.firebaseapp.com",
+  databaseURL:"https://TU_PROJECT-default-rtdb.firebaseio.com",
+  projectId:"TU_PROJECT"
 };
 
-// Initialize Firebase
+// ─── NÚMERO DE LA SEÑORA DEL DELIVERY (sin +, con código país) ───
+const NUMERO_DELIVERY = "56912345678"; // ← cambia esto por su número real
 
 let db=null,pedidos={},anterior={};
 
@@ -210,12 +203,20 @@ function renderCard(id,p){
   const mins=Math.floor((Date.now()-p.timestamp)/60000);
   const timerCls=mins>25?'timer urgent':'timer';
   const timerTxt=mins<1?'Hace un momento':`Hace ${mins} min`;
+
+  // Botón WhatsApp para señora delivery (solo en pedidos delivery cuando están listos)
+  const esDelivery = p.tipo !== 'retiro';
+  const btnWsp = esDelivery
+    ? `<button class="btn-action btn-wsp" onclick="notificarDelivery('${id}')">📲 Avisar a delivery por WhatsApp</button>`
+    : '';
+
   const acciones={
-    nuevo:`<button class="btn-action btn-prep" onclick="cambiar('${id}','prep')">▶ Preparando</button>
-           <button class="btn-action btn-del" onclick="cambiar('${id}','entregado')">Quitar</button>`,
-    prep: `<button class="btn-action btn-listo" onclick="cambiar('${id}','listo')">✓ Listo</button>
-           <button class="btn-action btn-del" onclick="cambiar('${id}','entregado')">Quitar</button>`,
-    listo:`<button class="btn-action btn-del" style="flex:1" onclick="cambiar('${id}','entregado')">✓ Entregado — quitar</button>`,
+    nuevo:`<button class="btn-action btn-prep" onclick="cambiar('${id}','prep')">▶ Comenzar preparación</button>
+           <button class="btn-action btn-del" onclick="cambiar('${id}','entregado')">Quitar pedido</button>`,
+    prep: `<button class="btn-action btn-listo" onclick="cambiar('${id}','listo')">✅ Marcar como LISTO</button>
+           <button class="btn-action btn-del" onclick="cambiar('${id}','entregado')">Quitar pedido</button>`,
+    listo:`${btnWsp}
+           <button class="btn-action btn-del" onclick="cambiar('${id}','entregado')">✓ Entregado — quitar</button>`,
   };
   return`<div class="card ${p.estado}" id="c-${id}">
     <div class="card-top">
@@ -232,14 +233,14 @@ function renderCard(id,p){
           <span class="item-qty">1×</span>
           <div>
             <div class="item-name">${it.nombre}</div>
-            ${it.ings?.length?`<div class="item-ings">${it.ings.join(', ')}</div>`:''}
+            ${it.ings?.length?`<div class="item-ings">🧂 ${it.ings.join(' · ')}</div>`:''}
             ${it.extraIng>0?`<div class="item-extra">+ $${it.extraIng.toLocaleString('es-CL')} ingredientes extra</div>`:''}
           </div>
         </div>`).join('')}
     </div>
     ${p.tipo!=='retiro'?`<div class="card-dir">📍 ${p.direccion}</div>`:''}
     ${p.notas?`<div class="card-nota">💬 ${p.notas}</div>`:''}
-    <div class="card-total">$${p.subtotal.toLocaleString('es-CL')} + IVA $${p.iva.toLocaleString('es-CL')} + del. $${p.delivery.toLocaleString('es-CL')} = <strong>$${p.total.toLocaleString('es-CL')}</strong></div>
+    <div class="card-total">Subtotal $${p.subtotal.toLocaleString('es-CL')} · IVA $${p.iva.toLocaleString('es-CL')} · Delivery $${p.delivery.toLocaleString('es-CL')} · <strong>Total $${p.total.toLocaleString('es-CL')}</strong></div>
     <div class="${timerCls}">${timerTxt}</div>
     <div class="actions">${acciones[p.estado]||''}</div>
   </div>`;
@@ -253,6 +254,24 @@ function cambiar(id,estado){
   }else{
     if(pedidos[id]){pedidos[id].estado=estado;render();}
   }
+}
+
+function notificarDelivery(id){
+  const p=pedidos[id];
+  if(!p)return;
+  const items=p.items.map(i=>i.nombre).join(', ');
+  const msg=
+    `🍕 *PEDIDO LISTO PARA DESPACHAR*\n\n`+
+    `👤 Cliente: ${p.cliente}\n`+
+    (p.telefono?`📞 Teléfono: ${p.telefono}\n`:'')+
+    `📍 Dirección: ${p.direccion}\n`+
+    `🛍️ Pedido: ${items}\n`+
+    (p.notas?`💬 Nota: ${p.notas}\n`:'')+
+    `💰 Total a cobrar: $${p.total.toLocaleString('es-CL')}\n`+
+    `💳 Pago: ${p.pago==='efectivo'?'Efectivo':'Transferencia'}\n\n`+
+    `⏰ ${new Date().toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit'})}`;
+  const url='https://wa.me/'+NUMERO_DELIVERY+'?text='+encodeURIComponent(msg);
+  window.open(url,'_blank');
 }
 
 setInterval(()=>{if(Object.keys(pedidos).length)render();},60000);
