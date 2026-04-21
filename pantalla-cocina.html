@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍕 Cocina — PizzaBurger</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@500;600&display=swap');
+:root{
+  --bg:#0D0D0D;--s1:#1A1A1A;--s2:#222;--b:rgba(255,255,255,.08);--b2:rgba(255,255,255,.14);
+  --t:#F0EDE8;--m:#888;--h:#555;
+  --brand:#E8633A;--brand-dim:rgba(232,99,58,.18);
+  --green:#4ade80;--green-dim:rgba(74,222,128,.15);
+  --amber:#fbbf24;--amber-dim:rgba(251,191,36,.12);
+  --blue:#60a5fa;--blue-dim:rgba(96,165,250,.12);
+  --red:#f87171;
+  --r:12px;--font:'DM Sans',sans-serif;--mono:'DM Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--t);min-height:100vh;overflow-x:hidden}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--s1);border-bottom:1px solid var(--b);position:sticky;top:0;z-index:100}
+.logo{font-size:17px;font-weight:600}.logo em{color:var(--brand);font-style:normal}
+.hdr-right{display:flex;align-items:center;gap:14px}
+.clock{font-family:var(--mono);font-size:20px;font-weight:600;letter-spacing:.02em}
+.counters{display:flex;gap:8px}
+.ctr{display:flex;align-items:center;gap:6px;background:var(--s2);border:1px solid var(--b);border-radius:8px;padding:6px 12px;font-size:13px;color:var(--m)}
+.ctr-n{font-family:var(--mono);font-size:16px;font-weight:600}
+.ctr-n.new{color:var(--brand)}.ctr-n.prep{color:var(--amber)}.ctr-n.rdy{color:var(--green)}
+.dot-wrap{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--m)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green)}.dot.off{background:var(--red)}
+/* TABLERO */
+.board{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:16px 20px;min-height:calc(100vh - 60px)}
+.col-hdr{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--m);padding-bottom:10px;border-bottom:1px solid var(--b);margin-bottom:10px}
+.col-dot{width:7px;height:7px;border-radius:50%}
+/* TARJETA */
+.card{background:var(--s1);border:1px solid var(--b);border-radius:var(--r);padding:14px;margin-bottom:10px;transition:all .2s;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}}
+.card.nuevo{border-left:3px solid var(--brand)}
+.card.prep {border-left:3px solid var(--amber)}
+.card.listo{border-left:3px solid var(--green);background:rgba(74,222,128,.06)}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.card-cliente{font-size:16px;font-weight:600}
+.card-hora{font-family:var(--mono);font-size:11px;color:var(--m)}
+.card-tipo{display:inline-block;font-size:11px;font-weight:600;padding:3px 8px;border-radius:6px;margin-bottom:8px}
+.tipo-delivery{background:var(--blue-dim);color:var(--blue)}
+.tipo-retiro{background:var(--green-dim);color:var(--green)}
+.card-pago{font-size:11px;color:var(--m);margin-bottom:8px}
+/* ITEMS */
+.items-list{margin-bottom:10px}
+.item-row{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid var(--b)}
+.item-row:last-child{border-bottom:none}
+.item-qty{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--brand);min-width:22px;flex-shrink:0;margin-top:1px}
+.item-name{font-size:14px;font-weight:500;line-height:1.4}
+.item-ings{font-size:12px;color:var(--m);margin-top:2px;line-height:1.4}
+.item-extra{font-size:11px;color:var(--amber);margin-top:1px}
+.card-dir{font-size:12px;color:var(--m);margin-bottom:4px}
+.card-nota{font-size:12px;color:var(--amber);background:var(--amber-dim);border-radius:6px;padding:5px 8px;margin-top:6px}
+.card-total{font-family:var(--mono);font-size:12px;color:var(--m);margin-top:6px}
+.timer{font-family:var(--mono);font-size:11px;color:var(--m);margin-top:4px}
+.timer.urgent{color:var(--red);font-weight:600}
+/* ACCIONES */
+.actions{display:flex;gap:7px;margin-top:10px}
+.btn-action{flex:1;padding:9px 6px;border-radius:8px;border:1px solid var(--b2);background:transparent;font-size:12px;font-weight:600;font-family:var(--font);cursor:pointer;transition:.15s;white-space:nowrap}
+.btn-prep{color:var(--amber);border-color:var(--amber)}.btn-prep:hover{background:var(--amber-dim)}
+.btn-listo{color:var(--green);border-color:var(--green)}.btn-listo:hover{background:var(--green-dim)}
+.btn-del{color:var(--m);font-size:11px}.btn-del:hover{background:var(--s2)}
+/* NOTIFICACIÓN */
+#notif{position:fixed;top:70px;right:16px;background:var(--s1);border:1px solid var(--brand);border-radius:12px;padding:12px 16px;min-width:250px;max-width:320px;transform:translateX(120%);transition:transform .35s cubic-bezier(.25,.8,.25,1);z-index:999}
+#notif.show{transform:translateX(0)}
+#notif-t{font-weight:600;font-size:14px;margin-bottom:3px}
+#notif-b{font-size:12px;color:var(--m);line-height:1.4}
+.empty-col{text-align:center;padding:24px 10px;color:var(--h);font-size:13px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🍕 <em>Pizza</em>Burger — <span style="color:var(--m);font-weight:400">Cocina</span></div>
+  <div class="hdr-right">
+    <div class="counters">
+      <div class="ctr"><span class="ctr-n new" id="cnt-n">0</span> nuevos</div>
+      <div class="ctr"><span class="ctr-n prep" id="cnt-p">0</span> prep.</div>
+      <div class="ctr"><span class="ctr-n rdy" id="cnt-l">0</span> listos</div>
+    </div>
+    <div class="clock" id="reloj">--:--:--</div>
+    <div class="dot-wrap"><div class="dot off" id="dot"></div><span id="conn">Conectando</span></div>
+  </div>
+</header>
+
+<div class="board">
+  <div>
+    <div class="col-hdr"><div class="col-dot" style="background:var(--brand)"></div>Nuevos</div>
+    <div id="col-nuevo"></div>
+  </div>
+  <div>
+    <div class="col-hdr"><div class="col-dot" style="background:var(--amber)"></div>Preparando</div>
+    <div id="col-prep"></div>
+  </div>
+  <div>
+    <div class="col-hdr"><div class="col-dot" style="background:var(--green)"></div>Listos</div>
+    <div id="col-listo"></div>
+  </div>
+</div>
+
+<div id="notif"><div id="notif-t"></div><div id="notif-b"></div></div>
+
+<script>
+const FB_CFG={
+  apiKey:"TU_API_KEY",
+  authDomain:"TU_PROJECT.firebaseapp.com",
+  databaseURL:"https://TU_PROJECT-default-rtdb.firebaseio.com",
+  projectId:"TU_PROJECT"
+};
+
+let db=null,pedidos={},anterior={};
+
+// RELOJ
+setInterval(()=>{
+  document.getElementById('reloj').textContent=
+    new Date().toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+},1000);
+
+// FIREBASE
+function initFB(){
+  try{
+    if(typeof firebase==='undefined'){modoDemo();return;}
+    if(!firebase.apps.length)firebase.initializeApp(FB_CFG);
+    db=firebase.database();
+    db.ref('.info/connected').on('value',s=>{
+      const ok=s.val();
+      document.getElementById('dot').className='dot'+(ok?'':' off');
+      document.getElementById('conn').textContent=ok?'En línea':'Sin conexión';
+    });
+    db.ref('pedidos').on('value',snap=>{
+      const nuevos=snap.val()||{};
+      detectarNuevos(nuevos);
+      pedidos=nuevos;anterior={...nuevos};
+      render();
+    });
+  }catch(e){modoDemo();}
+}
+
+function modoDemo(){
+  document.getElementById('dot').className='dot';
+  document.getElementById('conn').textContent='Demo';
+  pedidos={
+    d1:{cliente:'Pedro Soto',tipo:'cercano',direccion:'Av. Los Carrera 452',pago:'efectivo',
+      items:[{nombre:'Pizza Mediana',qty:1,ings:['Tocino','Pepperoni','Champiñón'],extraIng:0},{nombre:'Bebida lata 350cc',ings:[],extraIng:0}],
+      notas:'',subtotal:11000,iva:2090,delivery:2000,total:15090,estado:'nuevo',hora:'19:30',timestamp:Date.now()-180000},
+    d2:{cliente:'María González',tipo:'retiro',pago:'transferencia',
+      items:[{nombre:'Hamburguesa Doble',qty:1,ings:['Queso cheddar','Tocino','Palta'],extraIng:0},{nombre:'Papas fritas',ings:[],extraIng:0}],
+      notas:'Sin pepinillos',subtotal:11000,iva:2090,delivery:0,total:13090,estado:'prep',hora:'19:25',timestamp:Date.now()-360000},
+    d3:{cliente:'Luis Pérez',tipo:'lejano',direccion:'Calle 5 Norte 221',pago:'efectivo',
+      items:[{nombre:'2 Pizzas Medianas',qty:1,ings:[],extraIng:0}],
+      notas:'',subtotal:16000,iva:3040,delivery:2500,total:21540,estado:'listo',hora:'19:10',timestamp:Date.now()-900000},
+  };
+  render();
+}
+
+function detectarNuevos(nuevos){
+  Object.entries(nuevos).forEach(([id,p])=>{
+    if(!anterior[id]&&p.estado==='nuevo') notificar(p);
+  });
+}
+
+function notificar(p){
+  document.getElementById('notif-t').textContent='¡Nuevo pedido de '+p.cliente+'!';
+  const items=p.items.map(i=>i.nombre).join(', ');
+  document.getElementById('notif-b').textContent=
+    (p.tipo==='retiro'?'🏠 Retiro':('📍 '+p.direccion))+' · '+items;
+  const el=document.getElementById('notif');
+  el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),5000);
+  if(Notification.permission==='granted')
+    new Notification('🍕 Nuevo pedido — '+p.cliente,{body:items});
+}
+if(Notification.permission==='default')Notification.requestPermission();
+
+// RENDER
+function render(){
+  const cols={nuevo:[],prep:[],listo:[]};
+  Object.entries(pedidos)
+    .filter(([,p])=>p.estado!=='entregado')
+    .sort(([,a],[,b])=>a.timestamp-b.timestamp)
+    .forEach(([id,p])=>{if(cols[p.estado])cols[p.estado].push([id,p]);});
+  document.getElementById('cnt-n').textContent=cols.nuevo.length;
+  document.getElementById('cnt-p').textContent=cols.prep.length;
+  document.getElementById('cnt-l').textContent=cols.listo.length;
+  ['nuevo','prep','listo'].forEach(est=>{
+    const colId=est==='prep'?'col-prep':'col-'+est;
+    const col=document.getElementById(colId);
+    const items=cols[est];
+    col.innerHTML=items.length?items.map(([id,p])=>renderCard(id,p)).join(''):
+      '<div class="empty-col">Sin pedidos aquí</div>';
+  });
+}
+
+function renderCard(id,p){
+  const mins=Math.floor((Date.now()-p.timestamp)/60000);
+  const timerCls=mins>25?'timer urgent':'timer';
+  const timerTxt=mins<1?'Hace un momento':`Hace ${mins} min`;
+  const acciones={
+    nuevo:`<button class="btn-action btn-prep" onclick="cambiar('${id}','prep')">▶ Preparando</button>
+           <button class="btn-action btn-del" onclick="cambiar('${id}','entregado')">Quitar</button>`,
+    prep: `<button class="btn-action btn-listo" onclick="cambiar('${id}','listo')">✓ Listo</button>
+           <button class="btn-action btn-del" onclick="cambiar('${id}','entregado')">Quitar</button>`,
+    listo:`<button class="btn-action btn-del" style="flex:1" onclick="cambiar('${id}','entregado')">✓ Entregado — quitar</button>`,
+  };
+  return`<div class="card ${p.estado}" id="c-${id}">
+    <div class="card-top">
+      <span class="card-cliente">${p.cliente}</span>
+      <span class="card-hora">${p.hora}</span>
+    </div>
+    <span class="card-tipo ${p.tipo==='retiro'?'tipo-retiro':'tipo-delivery'}">
+      ${p.tipo==='retiro'?'🏠 Retiro':'📍 Delivery '+(p.tipo==='cercano'?'cercano':'lejano')}
+    </span>
+    <div class="card-pago">💳 ${p.pago==='efectivo'?'Efectivo':'Transferencia'}</div>
+    <div class="items-list">
+      ${p.items.map(it=>`
+        <div class="item-row">
+          <span class="item-qty">1×</span>
+          <div>
+            <div class="item-name">${it.nombre}</div>
+            ${it.ings?.length?`<div class="item-ings">${it.ings.join(', ')}</div>`:''}
+            ${it.extraIng>0?`<div class="item-extra">+ $${it.extraIng.toLocaleString('es-CL')} ingredientes extra</div>`:''}
+          </div>
+        </div>`).join('')}
+    </div>
+    ${p.tipo!=='retiro'?`<div class="card-dir">📍 ${p.direccion}</div>`:''}
+    ${p.notas?`<div class="card-nota">💬 ${p.notas}</div>`:''}
+    <div class="card-total">$${p.subtotal.toLocaleString('es-CL')} + IVA $${p.iva.toLocaleString('es-CL')} + del. $${p.delivery.toLocaleString('es-CL')} = <strong>$${p.total.toLocaleString('es-CL')}</strong></div>
+    <div class="${timerCls}">${timerTxt}</div>
+    <div class="actions">${acciones[p.estado]||''}</div>
+  </div>`;
+}
+
+function cambiar(id,estado){
+  if(db){
+    db.ref('pedidos/'+id+'/estado').set(estado);
+    if(estado==='listo')db.ref('pedidos/'+id+'/listoEn').set(
+      new Date().toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit'}));
+  }else{
+    if(pedidos[id]){pedidos[id].estado=estado;render();}
+  }
+}
+
+setInterval(()=>{if(Object.keys(pedidos).length)render();},60000);
+initFB();
+</script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+</body>
+</html>
