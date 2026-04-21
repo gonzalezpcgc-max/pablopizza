@@ -281,7 +281,7 @@ let db = null;
 function initFB() {
   try {
     if (typeof firebase==='undefined'){modoDemo();return;}
-    if (!firebase.apps.length) firebase.initializeApp(FB_CFG);
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     db = firebase.database();
     db.ref('.info/connected').on('value',s=>{
       const ok=s.val();
@@ -588,6 +588,7 @@ document.getElementById('f-nombre').addEventListener('input',actualizarTotal);
 
 renderMenu();
 initFB();
+  
 </script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
