@@ -270,7 +270,7 @@ function notificarDelivery(id){
     `💰 Total a cobrar: $${p.total.toLocaleString('es-CL')}\n`+
     `💳 Pago: ${p.pago==='efectivo'?'Efectivo':'Transferencia'}\n\n`+
     `⏰ ${new Date().toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit'})}`;
-  const url='https://wa.me/'+NUMERO_DELIVERY+'?text='+encodeURIComponent(msg);
+  const url='https://wa.me/'+56933999746+'?text='+encodeURIComponent(msg);
   window.open(url,'_blank');
 }
 
