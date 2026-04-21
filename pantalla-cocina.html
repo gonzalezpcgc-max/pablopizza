@@ -105,12 +105,24 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 <div id="notif"><div id="notif-t"></div><div id="notif-b"></div></div>
 
 <script>
-const FB_CFG = {
-  apiKey:"AIzaSy....",
-  authDomain:"pedidos-pablospizza.firebaseapp.com",
-  databaseURL:"https://pedidos-pablospizza-default-rtdb.firebaseio.com",
-  projectId:"pedidos-pablospizza"
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDe9zMh38lmwN-7YzhtkjFiDWK6UeGPxC4",
+  authDomain: "pedidos-pablosspizza.firebaseapp.com",
+  databaseURL: "https://pedidos-pablosspizza-default-rtdb.firebaseio.com",
+  projectId: "pedidos-pablosspizza",
+  storageBucket: "pedidos-pablosspizza.firebasestorage.app",
+  messagingSenderId: "85154138656",
+  appId: "1:85154138656:web:a586b5acc561eeadf64a45"
 };
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
 let db=null,pedidos={},anterior={};
 
